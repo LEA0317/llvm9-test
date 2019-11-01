@@ -37368,12 +37368,20 @@ static SDValue combineMulSpecial(uint64_t MulAmt, SDNode *N, SelectionDAG &DAG,
   if (isPowerOf2_64(MulAmt & (MulAmt - 1))) {
     unsigned ScaleShift = countTrailingZeros(MulAmt);
     if (ScaleShift >= 1 && ScaleShift < 4) {
+#ifndef SUPPRESS_OPTIMIZE
       unsigned ShiftAmt = Log2_64((MulAmt & (MulAmt - 1)));
       SDValue Shift1 = DAG.getNode(ISD::SHL, DL, VT, N->getOperand(0),
                                    DAG.getConstant(ShiftAmt, DL, MVT::i8));
       SDValue Shift2 = DAG.getNode(ISD::SHL, DL, VT, N->getOperand(0),
                                    DAG.getConstant(ScaleShift, DL, MVT::i8));
       return DAG.getNode(ISD::ADD, DL, VT, Shift1, Shift2);
+#else
+      return DAG.getNode(ISD::MUL,
+			 DL,
+			 VT,
+			 N->getOperand(0),
+			 DAG.getConstant(MulAmt, DL, MVT::i16));
+#endif
     }
   }
 
