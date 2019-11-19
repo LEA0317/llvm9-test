@@ -1,4 +1,4 @@
-### Makefile for VideoCore IV compiler ###
+### Makefile ###
 SRC_DIR		:= $(CURDIR)/llvm9.0.0/llvm
 BUILD_DIR	:= $(SRC_DIR)/build
 BIN_DIR		:= $(BUILD_DIR)/bin
@@ -9,6 +9,8 @@ CMAKE_FLAGS     += -DCMAKE_CXX_FLAGS="-DLLVM_ENABLE_DUMP -DSUPPRESS_OPTIMIZE"
 CMAKE_FLAGS	+= -DLLVM_ENABLE_PROJECTS="clang;lld"
 CMAKE_FLAGS	+= -DCMAKE_BUILD_TYPE=Release
 CMAKE_FLAGS	+= -DLLVM_ENABLE_LLD=On
+#CMAKE_FLAGS     += -DCMAKE_C_COMPILER=clang-8
+#CMAKE_FLAGS     += -DCMAKE_CXX_COMPILER=clang++-8
 CMAKE_FLAGS	+= -G "Unix Makefiles"
 
 MAKE		:= make
